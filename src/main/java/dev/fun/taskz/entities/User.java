@@ -1,9 +1,12 @@
 package dev.fun.taskz.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,6 +18,9 @@ public class User {
 	private Long id;	
 	
 	private String name;
+	
+	@ManyToMany(mappedBy = "users")
+	private List<Project> projects;
 
 	public Long getId() {
 		return id;
@@ -31,6 +37,14 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public List<Project> getProjects() {
+		return projects;
+	}
+	
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}	
 
 	public User(String name) {
 		this.name = name;
