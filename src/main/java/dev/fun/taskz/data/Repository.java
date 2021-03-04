@@ -5,11 +5,16 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-public class EntityRepository<E, ID extends Serializable> {
+/**
+ * Provides data access operations.
+ * @param <E> the entity type
+ * @param <T> the type of the ID of the entity
+ */
+public class Repository<E, T extends Serializable> {
 	
 	private final Class<E> entityClass;
 	
-	public EntityRepository(Class<E> entityClass) {
+	public Repository(Class<E> entityClass) {
 		this.entityClass = entityClass;
 	}
 	
@@ -29,7 +34,7 @@ public class EntityRepository<E, ID extends Serializable> {
 		return entityList;
 	}
 	
-	public E get(ID id) {
+	public E get(T id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		E entity = session.get(entityClass, id);
 		session.close();
