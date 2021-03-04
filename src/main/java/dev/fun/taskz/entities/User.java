@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +22,9 @@ public class User {
 	
 	@ManyToMany(mappedBy = "users")
 	private List<Project> projects;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Task> tasks;
 
 	public Long getId() {
 		return id;
