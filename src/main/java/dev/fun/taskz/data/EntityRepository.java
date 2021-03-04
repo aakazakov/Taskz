@@ -36,4 +36,12 @@ public class EntityRepository<E, ID extends Serializable> {
 		return entity;
 	}
 	
+	public void delete(E entity) {
+		Session session = SessionMaster.sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(entity);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 }
