@@ -22,10 +22,9 @@ public class EntityRepository<E, ID extends Serializable> {
 	}
 	
 	public List<E> getAll() {
+		String query = String.format("SELECT e FROM %s e", entityClass.getSimpleName());
 		Session session = SessionMaster.sessionFactory.openSession();
-		List<E> entityList = session
-				.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass)
-				.getResultList();
+		List<E> entityList = session.createQuery(query, entityClass).getResultList();
 		session.close();
 		return entityList;
 	}
