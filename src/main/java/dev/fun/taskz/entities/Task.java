@@ -28,7 +28,7 @@ public class Task {
 	private Status status;
 	
 	@ManyToOne
-	@JoinColumn(name = "task_id")
+	@JoinColumn(name = "project_id")
 	private Project project;
 
 	public Long getId() {
