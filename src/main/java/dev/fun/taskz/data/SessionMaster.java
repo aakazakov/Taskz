@@ -7,7 +7,7 @@ import dev.fun.taskz.entities.Project;
 import dev.fun.taskz.entities.Task;
 import dev.fun.taskz.entities.User;
 
-public final class SessionFactoryMaster {
+public final class SessionMaster {
 	
 	public static final SessionFactory sessionFactory;
 	
@@ -26,7 +26,7 @@ public final class SessionFactoryMaster {
 				.buildSessionFactory();
 	}
 	
-	private SessionFactoryMaster () {
+	private SessionMaster () {
 		
 	}
 	
