@@ -1,6 +1,5 @@
 package dev.fun.taskz.data;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,9 +7,8 @@ import org.hibernate.Session;
 /**
  * Provides data access operations.
  * @param <E> the entity type
- * @param <T> the type of the ID of the entity
  */
-public class Repository<E, T extends Serializable> {
+public class Repository<E> {
 	
 	private final Class<E> entityClass;
 	
@@ -34,7 +32,7 @@ public class Repository<E, T extends Serializable> {
 		return entityList;
 	}
 	
-	public E get(T id) {
+	public E get(Long id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		E entity = session.get(entityClass, id);
 		session.close();
