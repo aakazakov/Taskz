@@ -3,6 +3,7 @@ package dev.fun.taskz.entities;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class Project {
 	
 	private String title;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER) // TODO: replace EAGER with something better
 	@JoinTable(
 			name = "users_projects",
 			joinColumns = @JoinColumn(name = "project_id"),

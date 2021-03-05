@@ -67,6 +67,14 @@ public class Task {
 		this.project = project;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	public Task(String content, Status status, Project project) {
 		this.content = content;
 		this.status = status;

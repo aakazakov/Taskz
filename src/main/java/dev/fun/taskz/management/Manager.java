@@ -72,11 +72,23 @@ public class Manager {
 	}
 	
 	public void assignUserOnProject(Long projectId, Long userId) {
-		
+		// TODO: check if the user participates in the project
+		Project p = projectRepository.get(projectId);
+		p.getUsers().add(userRepository.get(userId));
+		projectRepository.update(p);
 	}
 	
 	public void assignTaskOnUser(Long userId, Long taskId) {
-		
+		// TODO: check if the user participates in the project
+		Task t = taskRepository.get(taskId);
+		t.setUser(userRepository.get(userId));
+		taskRepository.update(t);
+	}
+	
+	public void setTaskStatus(Long taskId, Status status) {
+		Task t = taskRepository.get(taskId);
+		t.setStatus(status);
+		taskRepository.update(t);
 	}
 	
 	public List<String> userTasks(Long userId, Long projectId) {

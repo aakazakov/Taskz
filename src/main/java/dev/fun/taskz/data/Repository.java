@@ -15,7 +15,7 @@ public class Repository<E> {
 	public Repository(Class<E> entityClass) {
 		this.entityClass = entityClass;
 	}
-	
+
 	public Long create(E entity) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		session.beginTransaction();
@@ -44,13 +44,6 @@ public class Repository<E> {
 	public E get(Long id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		E entity = session.get(entityClass, id);
-		session.close();
-		return entity;
-	}
-	
-	public E getEagerly(String queryName) {
-		Session session = SessionMaster.sessionFactory.openSession();
-		E entity = session.createNamedQuery(queryName, entityClass).getSingleResult();
 		session.close();
 		return entity;
 	}

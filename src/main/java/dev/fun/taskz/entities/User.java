@@ -48,7 +48,15 @@ public class User {
 	
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
-	}	
+	}
+	
+	public List<Task> getTasks() {
+		return tasks;
+	}
+	
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
 
 	public User(String name) {
 		this.name = name;
