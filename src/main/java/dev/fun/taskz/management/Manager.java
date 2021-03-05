@@ -5,6 +5,7 @@ import java.util.List;
 import dev.fun.taskz.data.Repository;
 import dev.fun.taskz.entities.Project;
 import dev.fun.taskz.entities.Task;
+import dev.fun.taskz.entities.Task.Status;
 import dev.fun.taskz.entities.User;
 
 /**
@@ -23,51 +24,51 @@ public class Manager {
 	}
 	
 	public Long createProject(String title) {
-		return null;
+		return projectRepository.create(new Project(title));
 	}
 	
-	public List<String> projectList() {
-		return null;
+	public List<Project> projectList() {
+		return projectRepository.getAll();
 	}
 	
-	public String projectInfo(Long id) {
-		return null;
+	public Project getProject(Long id) {
+		return projectRepository.get(id);
 	}
 	
 	public void deleteProject(Long projectId) {
-		
+		projectRepository.delete(projectId);
 	}
 	
 	public Long createUser(String name) {
-		return null;
+		return userRepository.create(new User(name));
 	}
 	
-	public List<String> userList() {
-		return null;
+	public List<User> userList() {
+		return userRepository.getAll();
 	}
 	
-	public String userInfo() {
-		return null;
+	public User getUser(Long userId) {
+		return userRepository.get(userId);
 	}
 	
 	public void deleteUser(Long userId) {
-		
+		userRepository.delete(userId);
 	}
 	
 	public Long createTask(Long projectId, String content) {
-		return null;
+		return taskRepository.create(new Task(content, Status.TODO, projectRepository.get(projectId)));
 	}
 	
-	public List<String> taskList(Long projectId) {
-		return null;
+	public List<Task> taskList(Long projectId) {
+		return projectRepository.get(projectId).getTasks();
 	}
 	
-	public String taskInfo(Long taskId) {
-		return null;
+	public Task getTask(Long taskId) {
+		return taskRepository.get(taskId);
 	}
 	
 	public void deleteTask(Long taskId) {
-		
+		taskRepository.delete(taskId);
 	}
 	
 	public void assignUserOnProject(Long projectId, Long userId) {
