@@ -28,7 +28,7 @@ public class Task {
 	private Status status;
 	
 	@ManyToOne
-	@JoinColumn(name = "project_id")
+	@JoinColumn(name = "project_id", nullable = false)
 	private Project project;
 	
 	@ManyToOne
@@ -59,9 +59,18 @@ public class Task {
 		this.status = status;
 	}
 	
-	public Task(String content, Status status) {
+	public Project getProject() {
+		return project;
+	}
+	
+	public void setProject(Project project) {
+		this.project = project;
+	}
+	
+	public Task(String content, Status status, Project project) {
 		this.content = content;
 		this.status = status;
+		this.project = project;
 	}
 
 	public Task() {

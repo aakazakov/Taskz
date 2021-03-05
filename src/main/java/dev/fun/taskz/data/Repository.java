@@ -16,10 +16,19 @@ public class Repository<E> {
 		this.entityClass = entityClass;
 	}
 	
-	public void create(E entity) {
+	public Long create(E entity) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(entity);
+		Long id = (Long) session.save(entity);
+		session.getTransaction().commit();
+		session.close();
+		return id;
+	}
+	
+	public void update(E entity) {
+		Session session = SessionMaster.sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(entity);
 		session.getTransaction().commit();
 		session.close();
 	}
@@ -39,10 +48,13 @@ public class Repository<E> {
 		return entity;
 	}
 	
-	public void delete(E entity) {
+	public void delete(Long id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		session.beginTransaction();
-		session.delete(entity);
+		session
+			.createQuery("DELETE " + entityClass.getSimpleName() + " WHERE id=?1")
+			.setParameter(1, id)
+			.executeUpdate();
 		session.getTransaction().commit();
 		session.close();
 	}

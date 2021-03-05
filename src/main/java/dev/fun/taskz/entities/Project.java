@@ -56,6 +56,14 @@ public class Project {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+	
+	public List<Task> getTasks() {
+		return tasks;
+	}
+	
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
 
 	public Project(String title) {
 		this.title = title;
