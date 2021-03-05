@@ -7,6 +7,9 @@ import dev.fun.taskz.entities.Project;
 import dev.fun.taskz.entities.Task;
 import dev.fun.taskz.entities.User;
 
+/**
+ * The Fat Manager ))
+ */
 public class Manager {
 	
 	private final Repository<Project> projectRepository;
