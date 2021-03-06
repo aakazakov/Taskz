@@ -8,11 +8,12 @@ import dev.fun.taskz.management.Manager;
 
 public class InputDataHandler {
 	
+	public static final String PROJECT = "project";
+	public static final String TASK = "task";
+	public static final String USER = "user";
+	
 	private static final String COMMENT = "#";
 	private static final String DELIMITER = ";";
-	private static final String PROJECT = "Project";
-	private static final String TASK = "Task";
-	private static final String USER = "User";
 	
 	private final Manager manager;
 	
@@ -34,7 +35,7 @@ public class InputDataHandler {
 		this.file = file;
 	}
 	
-	public void launch() throws IOException {
+	public void initDb() throws IOException {
 		read();
 	}
 	
