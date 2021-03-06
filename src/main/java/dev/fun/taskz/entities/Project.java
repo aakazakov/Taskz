@@ -2,19 +2,14 @@ package dev.fun.taskz.entities;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "projects")
+@NamedQuery(name = "users_eager", query = "SELECT p FROM Project p LEFT JOIN FETCH p.users WHERE p.id=?1")
+@NamedQuery(name = "tasks_eager", query = "SELECT p FROM Project p JOIN FETCH p.tasks WHERE p.id=?1")
 public class Project {
 
 	@Id
@@ -23,7 +18,7 @@ public class Project {
 	
 	private String title;
 	
-	@ManyToMany(fetch = FetchType.EAGER) // TODO: replace EAGER with something better
+	@ManyToMany
 	@JoinTable(
 			name = "users_projects",
 			joinColumns = @JoinColumn(name = "project_id"),
@@ -38,7 +33,7 @@ public class Project {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void ListId(Long id) {
 		this.id = id;
 	}
 	

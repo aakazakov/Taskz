@@ -48,6 +48,16 @@ public class Repository<E> {
 		return entity;
 	}
 	
+	public E getEager(String queryName, Long id) {
+		Session session = SessionMaster.sessionFactory.openSession();
+		E entity = session
+				.createNamedQuery(queryName, entityClass)
+				.setParameter(1, id)
+				.getSingleResult();
+		session.close();
+		return entity;
+	}
+	
 	public void delete(Long id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		session.beginTransaction();

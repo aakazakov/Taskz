@@ -1,6 +1,7 @@
 package dev.fun.taskz.management;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dev.fun.taskz.data.Repository;
 import dev.fun.taskz.entities.Project;
@@ -73,13 +74,13 @@ public class Manager {
 	
 	public void assignUserOnProject(Long projectId, Long userId) {
 		// TODO: check if the user participates in the project
-		Project p = projectRepository.get(projectId);
+		Project p = projectRepository.getEager("users_eager", projectId);
 		p.getUsers().add(userRepository.get(userId));
 		projectRepository.update(p);
 	}
 	
 	public void assignTaskOnUser(Long userId, Long taskId) {
-		// TODO: check if the user participates in the project
+		// TODO: check if the user already has the task ???
 		Task t = taskRepository.get(taskId);
 		t.setUser(userRepository.get(userId));
 		taskRepository.update(t);
@@ -91,8 +92,13 @@ public class Manager {
 		taskRepository.update(t);
 	}
 	
-	public List<String> userTasks(Long userId, Long projectId) {
-		return null;
+	public List<Task> userTasks(Long userId, Long projectId) {
+		return projectRepository
+				.getEager("tasks_eager", projectId)
+				.getTasks()
+				.stream()
+				.filter(t -> t.getUser().getId().equals(userId))
+				.collect(Collectors.toList());
 	}
 	
 }
