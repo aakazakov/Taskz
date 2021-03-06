@@ -1,53 +1,53 @@
-# Type;Constructor argument
+# type (lower case);Constructor argument
 
 # add single user
-User;User0
+user;User0
 
 # add single project
-Project;Project0
+project;Project0
 
 # add project
-Project;Project1
+project;Project1
 
 # add task to the project
-Task;Task0
+task;Task0
 
 # add user to the project
-User;User1
+user;User1
 
 # add tasks to the user
-Task;Task1
-Task;Task2
+task;Task1
+task;Task2
 
 # add user to the project
-User;User2
+user;User2
 
 # add tasks to the user
-Task;Task3
-Task;Task4
+task;Task3
+task;Task4
 
 # add user to the project
-User;User3
+user;User3
 
 # add task to the user
-Task;Task5
+task;Task5
 
 # add project
-Project;Project2
+project;Project2
 
 # add user to the project
-User;User4
+user;User4
 
 # add tasks to the user
-Task;Task6
-Task;Task7
+task;Task6
+task;Task7
 
 # add user to the project
-User;User5
+user;User5
 
 # add tasks to the user
-Task;Task8
-Task;Task9
+task;Task8
+task;Task9
 
 # add user to the project
-User;User6
+user;User6
