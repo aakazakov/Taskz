@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Terminal implements Runnable {
 	
-	private final CommandHandler commandHandler = new CommandHandler();
+	private final CommandInterpreter interpreter = new CommandInterpreter();
 	
 	@Override
 	public void run() {
@@ -12,8 +12,12 @@ public class Terminal implements Runnable {
 		Scanner scanner = new Scanner(System.in);
 		String command = scanner.nextLine();
 		
-		while (!command.equals(CommandHandler.QUITE)) {
-			System.out.println(commandHandler.handle(command));
+		while (!command.equals(CommandInterpreter.QUITE)) {
+			try {
+				System.out.println(interpreter.run(command));
+			} catch (CommandException e) {
+				System.out.println(e.getMessage());
+			}
 			command = scanner.nextLine();
 		}
 		
