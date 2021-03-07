@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import dev.fun.taskz.management.Manager;
+import dev.fun.taskz.management.ApplicationManager;
 
 public class InputDataHandler {
 	
@@ -15,7 +15,7 @@ public class InputDataHandler {
 	private static final String COMMENT = "#";
 	private static final String DELIMITER = ";";
 	
-	private final Manager manager;
+	private final ApplicationManager manager;
 	
 	private String file;
 	
@@ -31,7 +31,7 @@ public class InputDataHandler {
 	}
 	
 	public InputDataHandler(String file) {
-		this.manager = new Manager();
+		this.manager = new ApplicationManager();
 		this.file = file;
 	}
 	
