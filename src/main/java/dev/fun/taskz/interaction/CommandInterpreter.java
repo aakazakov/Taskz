@@ -14,9 +14,9 @@ public class CommandInterpreter {
 	private static final String DELIMITER = " ";
 	private static final String SUCCESS = "success";
 	private static final String UNKNOWN = "unknown command";
-	private static final String ADD = "add";
-	private static final String DELETE = "del";
-	private static final String INFO = "inf";
+	private static final String CREATE = "create";
+	private static final String DELETE = "delete";
+	private static final String SHOW = "show";
 	
 	private final ApplicationManager manager = new ApplicationManager();
 	
@@ -26,14 +26,14 @@ public class CommandInterpreter {
 		tokenQueue = new LinkedList<>(Arrays.asList(commandLine.split(DELIMITER)));
 		try {
 			String command = tokenQueue.poll();
-			if (command.equals(ADD)) {
-				return onAdd();
+			if (command.equals(CREATE)) {
+				return onCreate();
 			}
 			if (command.equals(DELETE)) {
 				return onDelete();
 			}
-			if (command.equals(INFO)) {
-				return onInfo();
+			if (command.equals(SHOW)) {
+				return onShow();
 			}		
 			return UNKNOWN;
 		} catch (Exception e) {
@@ -41,7 +41,7 @@ public class CommandInterpreter {
 		}
 	}
 	
-	private String onAdd() {
+	private String onCreate() {
 		String command = tokenQueue.poll();
 		if (command.equals(InputDataHandler.PROJECT)) {
 			manager.createProject(tokenQueue.poll());
@@ -69,7 +69,7 @@ public class CommandInterpreter {
 		return SUCCESS;
 	}
 	
-	private String onInfo() {
+	private String onShow() {
 		return null;
 	}
 

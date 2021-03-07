@@ -23,23 +23,23 @@ public class App {
 
 /*
 	CREATE COMMANDS:
-	add project <title>
-	add user <name>
-	add task <projectID> <description>
+	create project <title>
+	create user <name>
+	create task <projectID> <description>
 	
 	DELETE COMMANDS:
-	del project <projectID>
-	del user <userID>
-	del task <taskID>
+	delete project <projectID>
+	delete user <userID>
+	delete task <taskID>
 	
-	INFO COMMANDS:
-	inf project list
-	inf project <projectID>
-	inf user list
-	inf user <userID>
-	inf task <projectID>
-	inf task <taskID>
-	inf tasks <userID> <projectID>
+	SHOW COMMANDS:
+	show project list
+	show project <projectID>
+	show user list
+	show user <userID>
+	show task <projectID>
+	show task <taskID>
+	show tasks <userID> <projectID>
 	
 	OTHER COMMANDS:
 	set status <taskID> <status>
