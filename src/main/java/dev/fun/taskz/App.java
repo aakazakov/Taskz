@@ -20,3 +20,17 @@ public class App {
     }
     
 }
+
+/*
+	ADD COMMANDS:
+	add project <title>
+	add user <name>
+	add task <projectID> <description>
+	
+	DELETE COMMANDS:
+	
+	INFO COMMANDS:
+	
+	OTHER COMMANDS:
+	
+*/
