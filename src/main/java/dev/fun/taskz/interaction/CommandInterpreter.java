@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import javax.persistence.NoResultException;
+import javax.persistence.EntityNotFoundException;
 
 import org.hibernate.PropertyValueException;
 
@@ -66,7 +67,7 @@ public class CommandInterpreter {
 			throw new CommandException("invalid: the required token must be a number");
 		} catch (NoResultException e) {
 			throw new CommandException(UNSATISFIED_REQUEST);
-		} catch (PropertyValueException e) {
+		} catch (PropertyValueException | EntityNotFoundException e) {
 			throw new CommandException("invalid: " + e.getMessage());
 		}
 	}
