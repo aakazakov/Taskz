@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import dev.fun.taskz.entities.PreRemovable;
+
 /**
  * Provides data access operations.
  * @param <E> the entity type
@@ -59,14 +61,15 @@ public class Repository<E> {
 		return entity;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void delete(Long id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		session.beginTransaction();
-//		session
-//			.createQuery("DELETE " + entityClass.getSimpleName() + " WHERE id=?1")
-//			.setParameter(1, id)
-//			.executeUpdate();
-		session.delete(session.load(entityClass, id));
+		E entity = session.load(entityClass, id);
+		if (entity instanceof PreRemovable) {
+			((PreRemovable<E>) entity).clearRefs(entity);
+		}
+		session.delete(entity);
 		session.getTransaction().commit();
 		session.close();
 	}
