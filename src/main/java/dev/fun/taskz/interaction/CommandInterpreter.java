@@ -1,5 +1,6 @@
 package dev.fun.taskz.interaction;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,37 +18,41 @@ public class CommandInterpreter {
 	private static final String CREATE = "create";
 	private static final String DELETE = "delete";
 	private static final String SHOW = "show";
+	private static final String SHOW_LIST = "list";
+	private static final String USER_TASKS = "tasks";
 	
 	private final ApplicationManager manager = new ApplicationManager();
 	
 	private Queue<String> tokenQueue;
 	
 	public String run(String commandLine) throws CommandException {
-		tokenQueue = new LinkedList<>(Arrays.asList(commandLine.split(DELIMITER)));
+		tokenQueue = new LinkedList<>(Arrays.asList(commandLine.split(DELIMITER))); // new ???
 		try {
-			String command = tokenQueue.poll();
-			if (command.equals(CREATE)) {
+			String token = tokenQueue.poll();
+			if (token.equals(CREATE)) {
 				return onCreate();
 			}
-			if (command.equals(DELETE)) {
+			if (token.equals(DELETE)) {
 				return onDelete();
 			}
-			if (command.equals(SHOW)) {
+			if (token.equals(SHOW)) {
 				return onShow();
 			}		
 			return UNKNOWN;
-		} catch (Exception e) {
-			throw new CommandException("invalid");
+		} catch (NullPointerException e) {
+			throw new CommandException("invalid: required token is null");
+		} catch (NumberFormatException e) {
+			throw new CommandException("invalid: required token must be a number " + "(" + e.getMessage() + ")");
 		}
 	}
 	
 	private String onCreate() {
-		String command = tokenQueue.poll();
-		if (command.equals(InputDataHandler.PROJECT)) {
+		String token = tokenQueue.poll();
+		if (token.equals(InputDataHandler.PROJECT)) {
 			manager.createProject(tokenQueue.poll());
-		} else if (command.equals(InputDataHandler.USER)) {
+		} else if (token.equals(InputDataHandler.USER)) {
 			manager.createUser(tokenQueue.poll());
-		} else if (command.equals(InputDataHandler.TASK)) {
+		} else if (token.equals(InputDataHandler.TASK)) {
 			manager.createTask(Long.parseLong(tokenQueue.poll()), tokenQueue.poll());
 		} else {
 			return UNKNOWN;
@@ -56,12 +61,12 @@ public class CommandInterpreter {
 	}
 	
 	private String onDelete() {
-		String command = tokenQueue.poll();
-		if (command.equals(InputDataHandler.PROJECT)) {
+		String token = tokenQueue.poll();
+		if (token.equals(InputDataHandler.PROJECT)) {
 			manager.deleteProject(Long.parseLong(tokenQueue.poll()));
-		} else if (command.equals(InputDataHandler.USER)) {
+		} else if (token.equals(InputDataHandler.USER)) {
 			manager.deleteUser(Long.parseLong(tokenQueue.poll()));
-		} else if (command.equals(InputDataHandler.TASK)) {
+		} else if (token.equals(InputDataHandler.TASK)) {
 			manager.deleteTask(Long.parseLong(tokenQueue.poll()));
 		} else {
 			return UNKNOWN;
@@ -70,7 +75,39 @@ public class CommandInterpreter {
 	}
 	
 	private String onShow() {
-		return null;
+		String token = tokenQueue.poll();
+		if (token.equals(InputDataHandler.PROJECT)) {
+			token = tokenQueue.poll();
+			if (token.equals(SHOW_LIST))
+				return listToString(new ArrayList<>(manager.projectList()));
+			return manager.getProject(Long.parseLong(token)).toString();
+		}
+		if (token.equals(InputDataHandler.USER)) {
+			token = tokenQueue.poll();
+			if (token.equals(SHOW_LIST))
+				return listToString(new ArrayList<>(manager.userList()));
+			return manager.getUser(Long.parseLong(token)).toString();
+		}
+		if (token.equals(InputDataHandler.TASK)) {
+			token = tokenQueue.poll();
+			if (token.equals(SHOW_LIST))
+				return listToString(new ArrayList<>(manager.taskList(Long.parseLong(tokenQueue.poll()))));
+			return manager.getTask(Long.parseLong(token)).toString();
+		}
+		if (token.equals(USER_TASKS)) {
+			return manager.userTasks(Long.parseLong(tokenQueue.poll()), Long.parseLong(tokenQueue.poll())).toString();
+		}
+		return UNKNOWN;
+	}
+	
+	//TODO: replace Object with common Interface ??
+	private String listToString(ArrayList<? extends Object> list) {
+		StringBuilder sb = new StringBuilder();
+		for (Object o : list) {
+			sb.append(o.toString()).append("\n");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		return sb.toString();
 	}
 
 }
