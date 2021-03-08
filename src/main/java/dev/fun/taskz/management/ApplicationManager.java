@@ -97,7 +97,7 @@ public class ApplicationManager {
 				.getEager("tasks_eager", projectId)
 				.getTasks()
 				.stream()
-				.filter(t -> t.getUser().getId().equals(userId))
+				.filter(t -> t.getUser() != null && t.getUser().getId().equals(userId))
 				.collect(Collectors.toList());
 	}
 	
