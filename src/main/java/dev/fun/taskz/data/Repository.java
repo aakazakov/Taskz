@@ -8,6 +8,7 @@ import org.hibernate.Session;
  * Provides data access operations.
  * @param <E> the entity type
  */
+//TODO: replace <E> with common Interface ??
 public class Repository<E> {
 	
 	private final Class<E> entityClass;
