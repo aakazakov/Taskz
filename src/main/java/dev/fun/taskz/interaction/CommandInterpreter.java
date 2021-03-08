@@ -5,7 +5,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.persistence.NoResultException;
+
+import org.hibernate.PropertyValueException;
+
 import dev.fun.taskz.data.init.InputDataHandler;
+import dev.fun.taskz.entities.Task;
+import dev.fun.taskz.entities.Task.Status;
 import dev.fun.taskz.management.ApplicationManager;
 
 public class CommandInterpreter {
@@ -20,14 +26,22 @@ public class CommandInterpreter {
 	private static final String SHOW = "show";
 	private static final String SHOW_LIST = "list";
 	private static final String USER_TASKS = "tasks";
-	private static final String NOTHING = "nothing to show you...";
+	private static final String SET = "set";
+	private static final String TASK_STATUS = "status";
+	private static final String ASSIGN = "assign";
+	private static final String UNSATISFIED_REQUEST = "there is nothing to satisfy the request";
 	
 	private final ApplicationManager manager = new ApplicationManager();
 	
 	private Queue<String> tokenQueue;
 	
+	public CommandInterpreter() {
+		tokenQueue = new LinkedList<>();
+	}
+	
 	public String run(String commandLine) throws CommandException {
-		tokenQueue = new LinkedList<>(Arrays.asList(commandLine.split(DELIMITER))); // new ???
+		tokenQueue.clear();
+		tokenQueue.addAll(Arrays.asList(commandLine.split(DELIMITER)));
 		try {
 			String token = tokenQueue.poll();
 			if (token.equals(CREATE)) {
@@ -38,12 +52,22 @@ public class CommandInterpreter {
 			}
 			if (token.equals(SHOW)) {
 				return onShow();
-			}		
+			}
+			if (token.equals(SET)) {
+				return onSet();
+			}
+			if (token.equals(ASSIGN)) {
+				return onAssign();
+			}
 			return UNKNOWN;
-//		} catch (NullPointerException e) {
-//			throw new CommandException("invalid: required token is null");
+		} catch (NullPointerException e) {
+			throw new CommandException("invalid: the required token is null");
 		} catch (NumberFormatException e) {
-			throw new CommandException("invalid: required token must be a number " + "(" + e.getMessage() + ")");
+			throw new CommandException("invalid: the required token must be a number");
+		} catch (NoResultException e) {
+			throw new CommandException(UNSATISFIED_REQUEST);
+		} catch (PropertyValueException e) {
+			throw new CommandException("invalid: " + e.getMessage());
 		}
 	}
 	
@@ -81,24 +105,65 @@ public class CommandInterpreter {
 			token = tokenQueue.poll();
 			if (token.equals(SHOW_LIST))
 				return listToString(new ArrayList<>(manager.projectList()));
-			return manager.getProject(Long.parseLong(token)).toString();
+			return ifNullHasBeenReturned(manager.getProject(Long.parseLong(token)));
 		}
 		if (token.equals(InputDataHandler.USER)) {
 			token = tokenQueue.poll();
 			if (token.equals(SHOW_LIST))
 				return listToString(new ArrayList<>(manager.userList()));
-			return manager.getUser(Long.parseLong(token)).toString();
+			return ifNullHasBeenReturned(manager.getUser(Long.parseLong(token)));
 		}
 		if (token.equals(InputDataHandler.TASK)) {
 			token = tokenQueue.poll();
 			if (token.equals(SHOW_LIST))
 				return listToString(new ArrayList<>(manager.taskList(Long.parseLong(tokenQueue.poll()))));
-			return manager.getTask(Long.parseLong(token)).toString();
+			return ifNullHasBeenReturned(manager.getTask(Long.parseLong(token)));
 		}
 		if (token.equals(USER_TASKS)) {
-			return manager.userTasks(Long.parseLong(tokenQueue.poll()), Long.parseLong(tokenQueue.poll())).toString();
+			ArrayList<Task> tasks = 
+					new ArrayList<>(manager.userTasks(Long.parseLong(tokenQueue.poll()), Long.parseLong(tokenQueue.poll())));
+			return listToString(tasks);
 		}
 		return UNKNOWN;
+	}
+	
+	private String ifNullHasBeenReturned(Object o) {
+		return (o == null) ? UNSATISFIED_REQUEST : o.toString();
+	}
+	
+	private String onSet() {
+		String token = tokenQueue.poll();
+		if (token.equals(TASK_STATUS)){
+			Long taskId = Long.parseLong(tokenQueue.poll());
+			String status = tokenQueue.poll().toUpperCase();
+			if (!taskStatusExists(status)) {
+				return UNKNOWN;
+			}
+			manager.setTaskStatus(taskId, Status.valueOf(status));
+		} else {
+			return UNKNOWN;
+		}
+		return SUCCESS;
+	}
+	
+	private boolean taskStatusExists(String status) {
+		for (Status s : Status.values()) {
+			if (status.equals(s.name()))
+				return true;
+		}
+		return false;
+	}
+	
+	private String onAssign() {
+		String token = tokenQueue.poll();
+		if (token.equals(InputDataHandler.USER)) {
+			manager.assignUserOnProject(Long.parseLong(tokenQueue.poll()), Long.parseLong(tokenQueue.poll()));
+		} else if (token.equals(InputDataHandler.TASK)) {
+			manager.assignTaskOnUser(Long.parseLong(tokenQueue.poll()), Long.parseLong(tokenQueue.poll()));
+		} else {
+			return UNKNOWN;
+		}
+		return SUCCESS;
 	}
 	
 	//TODO: replace Object with common Interface ??
@@ -107,7 +172,7 @@ public class CommandInterpreter {
 		for (Object o : list) {
 			sb.append(o.toString()).append("\n");
 		}
-		if (sb.length() == 0) return NOTHING;
+		if (sb.length() == 0) return UNSATISFIED_REQUEST;
 		return sb.deleteCharAt(sb.length() - 1).toString();
 	}
 
