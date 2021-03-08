@@ -9,9 +9,6 @@ import dev.fun.taskz.entities.Task;
 import dev.fun.taskz.entities.Task.Status;
 import dev.fun.taskz.entities.User;
 
-/**
- * The Fat Manager ))
- */
 public class ApplicationManager {
 	
 	private final Repository<Project> projectRepository;
