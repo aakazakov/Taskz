@@ -61,7 +61,7 @@ public class ApplicationManager {
 	}
 	
 	public List<Task> taskList(Long projectId) {
-		return projectRepository.get(projectId).getTasks();
+		return projectRepository.getEager("tasks_eager", projectId).getTasks();
 	}
 	
 	public Task getTask(Long taskId) {
