@@ -20,6 +20,7 @@ public class CommandInterpreter {
 	private static final String SHOW = "show";
 	private static final String SHOW_LIST = "list";
 	private static final String USER_TASKS = "tasks";
+	private static final String NOTHING = "nothing to show you...";
 	
 	private final ApplicationManager manager = new ApplicationManager();
 	
@@ -39,8 +40,8 @@ public class CommandInterpreter {
 				return onShow();
 			}		
 			return UNKNOWN;
-		} catch (NullPointerException e) {
-			throw new CommandException("invalid: required token is null");
+//		} catch (NullPointerException e) {
+//			throw new CommandException("invalid: required token is null");
 		} catch (NumberFormatException e) {
 			throw new CommandException("invalid: required token must be a number " + "(" + e.getMessage() + ")");
 		}
@@ -106,8 +107,8 @@ public class CommandInterpreter {
 		for (Object o : list) {
 			sb.append(o.toString()).append("\n");
 		}
-		sb.deleteCharAt(sb.length() - 1);
-		return sb.toString();
+		if (sb.length() == 0) return NOTHING;
+		return sb.deleteCharAt(sb.length() - 1).toString();
 	}
 
 }

@@ -9,7 +9,7 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name = "projects")
 @NamedQuery(name = "users_eager", query = "SELECT p FROM Project p LEFT JOIN FETCH p.users WHERE p.id=?1")
-@NamedQuery(name = "tasks_eager", query = "SELECT p FROM Project p JOIN FETCH p.tasks WHERE p.id=?1")
+@NamedQuery(name = "tasks_eager", query = "SELECT p FROM Project p LEFT JOIN FETCH p.tasks WHERE p.id=?1")
 public class Project {
 
 	@Id
