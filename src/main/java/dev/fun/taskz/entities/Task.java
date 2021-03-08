@@ -1,5 +1,7 @@
 package dev.fun.taskz.entities;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -28,6 +30,13 @@ public class Task {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "parent_id")
+	Task parent;
+	
+	@OneToMany(mappedBy = "parent")
+	List<Task> children;
 
 	public Long getId() {
 		return id;
@@ -67,6 +76,22 @@ public class Task {
 	
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Task getParent() {
+		return parent;
+	}
+	
+	public void setParent(Task parent) {
+		this.parent = parent;
+	}
+	
+	public List<Task> getChildren() {
+		return children;
+	}
+	
+	public void setChildren(List<Task> children) {
+		this.children = children;
 	}
 	
 	public Task(String content, Status status, Project project) {
