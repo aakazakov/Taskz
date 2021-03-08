@@ -62,10 +62,11 @@ public class Repository<E> {
 	public void delete(Long id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		session.beginTransaction();
-		session
-			.createQuery("DELETE " + entityClass.getSimpleName() + " WHERE id=?1")
-			.setParameter(1, id)
-			.executeUpdate();
+//		session
+//			.createQuery("DELETE " + entityClass.getSimpleName() + " WHERE id=?1")
+//			.setParameter(1, id)
+//			.executeUpdate();
+		session.delete(session.load(entityClass, id));
 		session.getTransaction().commit();
 		session.close();
 	}
