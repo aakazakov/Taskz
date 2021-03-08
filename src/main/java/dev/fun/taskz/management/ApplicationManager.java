@@ -70,7 +70,7 @@ public class ApplicationManager {
 	}
 	
 	public void assignUserOnProject(Long projectId, Long userId) {
-		// TODO: check if the user participates in the project
+		// TODO: check if the user participates in the project ???
 		Project p = projectRepository.getEager("users_eager", projectId);
 		p.getUsers().add(userRepository.get(userId));
 		projectRepository.update(p);
