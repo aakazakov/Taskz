@@ -37,7 +37,7 @@ public class App {
 	show project <projectID>
 	show user list
 	show user <userID>
-	show task <projectID>
+	show task list <projectID>
 	show task <taskID>
 	show tasks <userID> <projectID>
 	
