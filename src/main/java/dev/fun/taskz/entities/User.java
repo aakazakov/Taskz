@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements PreRemovable<User> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +64,16 @@ public class User {
 	@Override
 	public String toString() {
 		return String.format("[User] id: %d, name: %s", id, name);
+	}
+
+	@Override
+	public void clearRefs(User user) {
+		for (Task t : user.getTasks()) {
+			t.setUser(null);
+		}
+		for (Project p : user.getProjects()) {
+			p.getUsers().remove(user);
+		}		
 	}
 	
 }
