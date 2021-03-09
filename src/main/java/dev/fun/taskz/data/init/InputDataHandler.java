@@ -61,7 +61,7 @@ public class InputDataHandler {
 			if (projectId != null) 
 				manager.assignUserOnProject(projectId, userId);
 		} else if (defToken.equals(TASK)) {
-			Long taskId = manager.createTask(projectId, tokens[1]);
+			Long taskId = manager.createTask(projectId, tokens[1], tokens[2]);
 			if (userId != null)
 				manager.assignTaskOnUser(userId, taskId);
 		}

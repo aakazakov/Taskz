@@ -1,5 +1,6 @@
 package dev.fun.taskz.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.*;
@@ -37,6 +38,8 @@ public class Task {
 	
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
 	private List<Task> children;
+	
+	private LocalDateTime deadline;
 
 	public Long getId() {
 		return id;
@@ -94,10 +97,25 @@ public class Task {
 		this.children = children;
 	}
 	
+	public LocalDateTime getDeadline() {
+		return deadline;
+	}
+	
+	public void setDeadline(LocalDateTime deadline) {
+		this.deadline = deadline;
+	}
+	
 	public Task(String content, Status status, Project project) {
 		this.content = content;
 		this.status = status;
 		this.project = project;
+	}
+	
+	public Task(String content, LocalDateTime deadline, Project project) {
+		this.content = content;
+		this.status = Status.TODO;
+		this.project = project;
+		this.deadline = deadline;
 	}
 
 	public Task() {
@@ -107,8 +125,13 @@ public class Task {
 	@Override
 	public String toString() {
 		return 
-				String.format("[Task] id: %d, parent_id: %d, status: %s, content: %s, user: %s",
-			id, (parent == null) ? null : parent.getId(), status.name(), content, (user == null) ? null : user.toString());
+				String.format("[Task] id: %d, parent_id: %d, status: %s, deadline: %s content: %s, user: %s",
+			id, 
+			(parent == null) ? null : parent.getId(), 
+			status.name(), 
+			deadline, 
+			content,
+			(user == null) ? null : user.toString());
 	}
 	
 }

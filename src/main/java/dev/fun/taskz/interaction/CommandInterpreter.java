@@ -80,9 +80,9 @@ public class CommandInterpreter {
 		} else if (token.equals(InputDataHandler.USER)) {
 			manager.createUser(getVerbose());
 		} else if (token.equals(InputDataHandler.TASK)) {
-			manager.createTask(Long.parseLong(tokenQueue.poll()), getVerbose());
+			manager.createTask(Long.parseLong(tokenQueue.poll()), tokenQueue.poll(), getVerbose());
 		} else if (token.equals(SUBTASK)) {
-			manager.createSubtask(Long.parseLong(tokenQueue.poll()), getVerbose());
+			manager.createSubtask(Long.parseLong(tokenQueue.poll()), tokenQueue.poll(), getVerbose());
 		} else {
 			return UNKNOWN;
 		}

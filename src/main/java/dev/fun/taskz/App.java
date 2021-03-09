@@ -9,8 +9,8 @@ import dev.fun.taskz.interaction.Terminal;
 CREATE COMMANDS:
 create project <title>
 create user <name>
-create task <projectID> <content> // creates a task in the specified project (<content> means task description)
-create subtask <parentTaskID> <content> // creates a subtask for the specified task
+create task <projectID> <deadline> <content> // creates a task in the specified project (<content> means task description)
+create subtask <parentTaskID> <deadline> <content> // creates a subtask for the specified task
 
 DELETE COMMANDS:
 delete project <projectID>
@@ -43,7 +43,7 @@ create project Awesome Project bla-bla-bla // saved title: Awesome
 show project 2
 assign user 2 1
 set status 4 done
-create task 2 'Greet the world' // in the project with id = 2 a task with the content "Greet the world" will be created
+create task 2 2021-03-11T12:00:00 'Greet the world' // in the project with id = 2 a task with the content "Greet the world" will be created
 
 >>> Have fun <<<
 */

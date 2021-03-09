@@ -1,5 +1,6 @@
 package dev.fun.taskz.management;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,13 +54,13 @@ public class ApplicationManager {
 		userRepository.delete(userId);
 	}
 	
-	public Long createTask(Long projectId, String content) {
-		return taskRepository.create(new Task(content, Status.TODO, projectRepository.get(projectId)));
+	public Long createTask(Long projectId, String deadline, String content) {
+		return taskRepository.create(new Task(content, LocalDateTime.parse(deadline), projectRepository.get(projectId)));
 	}
 	
-	public Long createSubtask(Long parentId, String content) {
+	public Long createSubtask(Long parentId, String deadline, String content) {
 		Task parent = taskRepository.get(parentId);
-		Task subtask = new Task(content, Status.TODO, parent.getProject());
+		Task subtask = new Task(content, LocalDateTime.parse(deadline), parent.getProject());
 		subtask.setParent(parent);
 		subtask.setUser(parent.getUser());
 		return taskRepository.create(subtask);
