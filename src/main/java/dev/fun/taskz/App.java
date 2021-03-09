@@ -26,6 +26,7 @@ public class App {
 	create project <title>
 	create user <name>
 	create task <projectID> <description>
+	create subtask <parentTaskID> <description>
 	
 	DELETE COMMANDS:
 	delete project <projectID>

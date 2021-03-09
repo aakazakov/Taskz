@@ -57,6 +57,14 @@ public class ApplicationManager {
 		return taskRepository.create(new Task(content, Status.TODO, projectRepository.get(projectId)));
 	}
 	
+	public Long createSubtask(Long parentId, String content) {
+		Task parent = taskRepository.get(parentId);
+		Task subtask = new Task(content, Status.TODO, parent.getProject());
+		subtask.setParent(parent);
+		subtask.setUser(parent.getUser());
+		return taskRepository.create(subtask);
+	}
+	
 	public List<Task> taskList(Long projectId) {
 		return projectRepository.getEager("tasks_eager", projectId).getTasks();
 	}

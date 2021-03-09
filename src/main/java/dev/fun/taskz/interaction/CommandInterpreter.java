@@ -29,6 +29,7 @@ public class CommandInterpreter {
 	private static final String USER_TASKS = "tasks";
 	private static final String SET = "set";
 	private static final String TASK_STATUS = "status";
+	private static final String SUBTASK = "subtask";
 	private static final String ASSIGN = "assign";
 	private static final String UNSATISFIED_REQUEST = "there is nothing to satisfy the request";
 	
@@ -80,6 +81,8 @@ public class CommandInterpreter {
 			manager.createUser(tokenQueue.poll());
 		} else if (token.equals(InputDataHandler.TASK)) {
 			manager.createTask(Long.parseLong(tokenQueue.poll()), tokenQueue.poll());
+		} else if (token.equals(SUBTASK)) {
+			manager.createSubtask(Long.parseLong(tokenQueue.poll()), tokenQueue.poll());
 		} else {
 			return UNKNOWN;
 		}

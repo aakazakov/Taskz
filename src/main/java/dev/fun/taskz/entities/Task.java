@@ -35,7 +35,7 @@ public class Task {
 	@JoinColumn(name = "parent_id")
 	Task parent;
 	
-	@OneToMany(mappedBy = "parent")
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
 	List<Task> children;
 
 	public Long getId() {
@@ -106,8 +106,9 @@ public class Task {
 	
 	@Override
 	public String toString() {
-		return String.format("[Task] id: %d, status: %s, content: %s, user: %s",
-				id, status.name(), content, (user == null) ? "null": user.toString());
+		return 
+				String.format("[Task] id: %d, parent_id: %d, status: %s, content: %s, user: %s",
+			id, (parent == null) ? null : parent.getId(), status.name(), content, (user == null) ? null : user.toString());
 	}
 	
 }
