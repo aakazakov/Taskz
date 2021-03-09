@@ -28,6 +28,7 @@ public class CommandInterpreter {
 	private static final String SHOW_LIST = "list";
 	private static final String USER_TASKS = "tasks";
 	private static final String SET = "set";
+	private static final String DEADLINE = "deadline";
 	private static final String TASK_STATUS = "status";
 	private static final String SUBTASK = "subtask";
 	private static final String ASSIGN = "assign";
@@ -127,6 +128,9 @@ public class CommandInterpreter {
 			ArrayList<Task> tasks = 
 					new ArrayList<>(manager.userTasks(Long.parseLong(tokenQueue.poll()), Long.parseLong(tokenQueue.poll())));
 			return listToString(tasks);
+		}
+		if (token.equals(DEADLINE)) {
+			return manager.getSumOfRemainingTime(Long.parseLong(tokenQueue.poll())).toString();
 		}
 		return UNKNOWN;
 	}

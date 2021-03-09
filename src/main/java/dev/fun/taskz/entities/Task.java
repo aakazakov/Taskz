@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tasks")
+@NamedQuery(name = "children_eager", query = "SELECT t FROM Task t LEFT JOIN FETCH t.children WHERE t.id=?1")
 public class Task {
 	
 	public enum Status {

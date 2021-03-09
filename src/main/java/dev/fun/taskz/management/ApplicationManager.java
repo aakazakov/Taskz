@@ -1,5 +1,6 @@
 package dev.fun.taskz.management;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,6 +77,22 @@ public class ApplicationManager {
 	
 	public void deleteTask(Long taskId) {
 		taskRepository.delete(taskId);
+	}
+	
+	public Long getSumOfRemainingTime(Long taskId) {
+		Task task = taskRepository.getEager("children_eager",taskId);
+		Long sum = task
+				.getChildren()
+				.stream()
+				.map(Task::getDeadline)
+				.mapToLong(this::getTimeBeforeDeadline)
+				.sum();
+		sum += getTimeBeforeDeadline(task.getDeadline());
+		return sum;
+	}
+	
+	private long getTimeBeforeDeadline(LocalDateTime deadline) {
+		return Duration.between(LocalDateTime.now(), deadline).toHours();
 	}
 	
 	public void assignUserOnProject(Long projectId, Long userId) {

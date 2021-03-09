@@ -25,6 +25,7 @@ show user <userID>
 show task list <projectID>
 show task <taskID>
 show tasks <userID> <projectID> // displays a list of user tasks in the specified project
+show deadline <taskID> // displays sum of remaining time include all subtasks
 
 OTHER COMMANDS:
 set status <taskID> <status> // sets the actual status of the task

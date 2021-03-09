@@ -18,7 +18,7 @@ public final class SessionMaster {
 				.setProperty("hibernate.connection.url", "jdbc:h2:mem:test")
 				.setProperty("hibernate.connection.username", "sa")
 				.setProperty("hibernate.connection.password", "")
-				.setProperty("hibernate.show_sql", "true")
+				.setProperty("hibernate.show_sql", "false")
 				.setProperty("hibernate.hbm2ddl.auto", "create-drop")
 				.addAnnotatedClass(User.class)
 				.addAnnotatedClass(Project.class)
