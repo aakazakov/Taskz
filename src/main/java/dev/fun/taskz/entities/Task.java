@@ -105,17 +105,11 @@ public class Task {
 		this.deadline = deadline;
 	}
 	
-	public Task(String content, Status status, Project project) {
-		this.content = content;
-		this.status = status;
-		this.project = project;
-	}
-	
 	public Task(String content, LocalDateTime deadline, Project project) {
 		this.content = content;
-		this.status = Status.TODO;
-		this.project = project;
 		this.deadline = deadline;
+		this.project = project;
+		this.status = Status.TODO;
 	}
 
 	public Task() {
