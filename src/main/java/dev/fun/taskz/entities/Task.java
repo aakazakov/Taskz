@@ -33,10 +33,10 @@ public class Task {
 	
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
-	Task parent;
+	private Task parent;
 	
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
-	List<Task> children;
+	private List<Task> children;
 
 	public Long getId() {
 		return id;
