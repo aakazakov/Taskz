@@ -78,14 +78,12 @@ public class ApplicationManager {
 	}
 	
 	public void assignUserOnProject(Long projectId, Long userId) {
-		// TODO: check if the user participates in the project ???
 		Project p = projectRepository.getEager("users_eager", projectId);
 		p.getUsers().add(userRepository.get(userId));
 		projectRepository.update(p);
 	}
 	
 	public void assignTaskOnUser(Long userId, Long taskId) {
-		// TODO: check if the user already has the task ???
 		Task t = taskRepository.get(taskId);
 		t.setUser(userRepository.get(userId));
 		taskRepository.update(t);
@@ -97,6 +95,12 @@ public class ApplicationManager {
 		taskRepository.update(t);
 	}
 	
+	/**
+	 * Returns user tasks in the specified project
+	 * @param userId user ID
+	 * @param projectId project ID
+	 * @return {@code List} of {@link Task}
+	 */
 	public List<Task> userTasks(Long userId, Long projectId) {
 		return projectRepository
 				.getEager("tasks_eager", projectId)

@@ -2,6 +2,8 @@ package dev.fun.taskz.data;
 
 import java.util.List;
 
+import javax.persistence.FetchType;
+
 import org.hibernate.Session;
 
 import dev.fun.taskz.entities.PreRemovable;
@@ -51,6 +53,12 @@ public class Repository<E> {
 		return entity;
 	}
 	
+	/**
+	 * An alternative to {@link FetchType.EAGER}
+	 * @param queryName a named query with {@code JOIN FETCH}
+	 * @param id the entity ID
+	 * @return entity or if there is no entity with this ID, an exception is thrown, see {@link org.hibernate.query.Query.getSingleResult()}
+	 */
 	public E getEager(String queryName, Long id) {
 		Session session = SessionMaster.sessionFactory.openSession();
 		E entity = session
