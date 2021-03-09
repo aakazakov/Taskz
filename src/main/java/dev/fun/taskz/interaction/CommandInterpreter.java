@@ -76,13 +76,13 @@ public class CommandInterpreter {
 	private String onCreate() {
 		String token = tokenQueue.poll();
 		if (token.equals(InputDataHandler.PROJECT)) {
-			manager.createProject(tokenQueue.poll());
+			manager.createProject(getVerbose());
 		} else if (token.equals(InputDataHandler.USER)) {
-			manager.createUser(tokenQueue.poll());
+			manager.createUser(getVerbose());
 		} else if (token.equals(InputDataHandler.TASK)) {
-			manager.createTask(Long.parseLong(tokenQueue.poll()), tokenQueue.poll());
+			manager.createTask(Long.parseLong(tokenQueue.poll()), getVerbose());
 		} else if (token.equals(SUBTASK)) {
-			manager.createSubtask(Long.parseLong(tokenQueue.poll()), tokenQueue.poll());
+			manager.createSubtask(Long.parseLong(tokenQueue.poll()), getVerbose());
 		} else {
 			return UNKNOWN;
 		}
@@ -178,6 +178,19 @@ public class CommandInterpreter {
 		}
 		if (sb.length() == 0) return UNSATISFIED_REQUEST;
 		return sb.deleteCharAt(sb.length() - 1).toString();
+	}
+	
+	private String getVerbose() {
+		String token  = tokenQueue.poll();
+		if (token.startsWith("'")) {
+			StringBuilder sb = new StringBuilder(token);
+			while (!tokenQueue.isEmpty() && !token.endsWith("'")) {
+				token = tokenQueue.poll();
+				sb.append(" ").append(token);
+			}
+			return sb.toString().replace("'", "");
+		}
+		return token;
 	}
 
 }
